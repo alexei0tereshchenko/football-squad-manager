@@ -29,7 +29,7 @@ It is also an engineering playground for patterns that matter at scale: **idempo
 | Layer | Choice |
 |---|---|
 | Language / Runtime | Java 21 (LTS) |
-| Framework | Spring Boot 3.4.x |
+| Framework | Spring Boot 4.2.x |
 | Modularity | Spring Modulith (package-by-module, architecture tests) |
 | Database | PostgreSQL 16 (Flyway migrations) |
 | Messaging (in-process) | Spring `ApplicationEventPublisher` → later RabbitMQ/Kafka |
