@@ -41,22 +41,21 @@ It is also an engineering playground for patterns that matter at scale: **idempo
 ---
 
 ## Architecture at a glance
-┌──────────────────────────────────────────────────────────┐
-│ Telegram Platform │
-└─────────────────────┬────────────────────────────────────┘
-│ webhook / long polling
-┌─────────────────────▼────────────────────────────────────┐
-│ football-squad-manager (Spring Boot modular monolith) │
-│ │
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────────┐ │
-│ │ telegram │ │ match │ │ squad │ │ rating │ │
-│ └────┬─────┘ └────┬─────┘ └────┬─────┘ └─────┬──────┘ │
-│ │ │ │ │ │
-│ └────────────┴────────────┴──────────────┘ │
-│ domain events │
-└───────────┬──────────────────────────────┬───────────────┘
-│ │
-┌──────▼──────┐ ┌─────▼──────┐
-│ PostgreSQL │ │ RustFS │
-│ (sharded) │ │ (S3 API) │
-└─────────────┘ └────────────┘
+
+```mermaid
+flowchart LR
+    TG([Telegram Platform])
+    
+    subgraph App [football-squad-manager - Spring Boot]
+        direction TB
+        T[telegram] --> M[match]
+        M --> S[squad]
+        S --> R[rating]
+    end
+    
+    DB[(PostgreSQL\nSharded)]
+    S3[(RustFS / S3\nVideo Storage)]
+
+    TG -- "Webhook / Long Polling" --> App
+    App -- "State" --> DB
+    App -- "Video" --> S3
